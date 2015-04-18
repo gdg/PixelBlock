@@ -2,14 +2,13 @@
 window.onload = function () {
   // jquery
   var jq = document.createElement('script');
-  jq.src = "https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js";
+  jq.src = "https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js";
   document.getElementsByTagName('body')[0].appendChild(jq);
   
   // gmail.js
   var gmsrc = document.createElement('script');
   gmsrc.src = chrome.extension.getURL('scripts/gmail.min.js');
   document.getElementsByTagName('body')[0].appendChild(gmsrc);
-  console.log("Gmail.js ready to go!");
   
   // main.js
   var sm = document.createElement('script');
