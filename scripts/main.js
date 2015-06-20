@@ -7,10 +7,12 @@ var pixelblock = (function(){
       safe_pattern  = '?safe-img-pbza#',
       proxy_pattern = 'googleusercontent.com/proxy';
 
-  var blacklist = [{name:'Sidekick',     pattern:'t.signaux',              url:'http://getsignals.com'},
-                   {name:'Sidekick',     pattern:'t.senaldos.com',         url:'http://getsignals.com'},
+  var blacklist = [{name:'Sidekick',     pattern:'t.signaux',              url:'http://getsidekick.com'},
+                   {name:'Sidekick',     pattern:'t.senal',                url:'http://getsidekick.com'},
+                   {name:'Sidekick',     pattern:'t.sidekickopen',         url:'http://getsidekick.com'},
                    {name:'Banana Tag',   pattern:'bl-1.com',               url:'http://bananatag.com'},
                    {name:'Boomerang',    pattern:'mailstat.us/tr',         url:'http://boomeranggmail.com'},
+                   {name:'Cirrus Inisght', pattern:'tracking.cirrusinsight.com', url:'http://cirrusinsight.com'},
                    {name:'Yesware',      pattern:'app.yesware.com',        url:'http://yesware.com'},
                    {name:'Yesware',      pattern:'t.yesware.com',          url:'http://yesware.com'},
                    {name:'Streak',       pattern:'mailfoogae.appspot.com', url:'http://streak.com'},
