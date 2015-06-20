@@ -7,8 +7,8 @@ var pixelblock = (function(){
       safe_pattern  = '?safe-img-pbza#',
       proxy_pattern = 'googleusercontent.com/proxy';
 
-  var blacklist = [{name:'Signals',      pattern:'t.signaux',              url:'http://getsignals.com'},
-                   {name:'Signals',      pattern:'t.senaldos.com',         url:'http://getsignals.com'},
+  var blacklist = [{name:'Sidekick',     pattern:'t.signaux',              url:'http://getsignals.com'},
+                   {name:'Sidekick',     pattern:'t.senaldos.com',         url:'http://getsignals.com'},
                    {name:'Banana Tag',   pattern:'bl-1.com',               url:'http://bananatag.com'},
                    {name:'Boomerang',    pattern:'mailstat.us/tr',         url:'http://boomeranggmail.com'},
                    {name:'Yesware',      pattern:'app.yesware.com',        url:'http://yesware.com'},
@@ -21,7 +21,8 @@ var pixelblock = (function(){
                    {name:'Infusionsoft', pattern:'infusionsoft.com/app/emailOpened',  url:'http://infusionsoft.com'},
                    {name:'Intercom',     pattern:'via.intercom.io/o',      url:'http://intercom.io'},
                    {name:'Mandrill',     pattern:'mandrillapp.com/track',  url:'http://mandrillapp.com'},
-                   {name:'Hubspot',      pattern:'t.hsms06.com',           url: 'http://hubspot.com'},
+                   {name:'Hubspot',      pattern:'t.hsms06.com',           url:'http://hubspot.com'},
+                   {name:'RelateIQ',     pattern:'app.relateiq.com/t.png', url:'http://relateiq.com'},
                    {name:'RJ Metrics',   pattern:'go.rjmetrics.com',       url:'http://rjmetrics.com'},
                    {name:'Mixpanel',     pattern:'api.mixpanel.com/track', url:'http://mixpanel.com'},
                    {name:'Front App',    pattern:'web.frontapp.com/api',   url:'http://frontapp.com'},
@@ -42,14 +43,34 @@ var pixelblock = (function(){
     });
 
     // block all images left over that are 1 x 1 (or less, regardless)
-    if(!blacklisted && $(img).width() <= 1 && $(img).height() <= 1){
-      img.tracker_info = {pattern:'', name:'Unknown', url:''};
-      blacklisted = true;
+    if (!blacklisted) {
+      var elem = $(img)[0];
+      // fetch all possible height values
+      var w1 = clean_height_width(elem.style.width);
+      var w2 = clean_height_width(elem.style.maxWidth);
+      var w3 = clean_height_width(elem.width);
+
+      // fetch all possible width values
+      var h1 = clean_height_width(elem.style.height);
+      var h2 = clean_height_width(elem.style.maxHeight);
+      var h3 = clean_height_width(elem.height);
+
+      if ( (w1 == 0 || w1 == 1 || w2 == 0 || w2 == 1 || w3 == 0 || w3 == 1) &&
+           (h1 == 0 || h1 == 1 || h2 == 0 || h2 == 1 || h3 == 0 || h3 == 1)
+      ) {
+        img.tracker_info = {pattern:'', name:'Unknown', url:''};
+        blacklisted = true;
+      }
     }
 
     // if blacklisted, hide image (ie. prevent the tracking img from loading)
     if(blacklisted) img.style.display = 'none';
     return blacklisted;
+  }
+
+  var clean_height_width = function(x){
+    if (x !== "") return parseInt(x, 10);
+    return -1;
   }
 
   /*
