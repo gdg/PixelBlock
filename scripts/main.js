@@ -10,6 +10,7 @@ var pixelblock = (function(){
   var blacklist = [{name:'Sidekick',     pattern:'t.signaux',              url:'http://getsidekick.com'},
                    {name:'Sidekick',     pattern:'t.senal',                url:'http://getsidekick.com'},
                    {name:'Sidekick',     pattern:'t.sidekickopen',         url:'http://getsidekick.com'},
+                   {name:'Sidekick',     pattern:'t.sigopn',               url:'http://getsidekick.com'},
                    {name:'Banana Tag',   pattern:'bl-1.com',               url:'http://bananatag.com'},
                    {name:'Boomerang',    pattern:'mailstat.us/tr',         url:'http://boomeranggmail.com'},
                    {name:'Cirrus Inisght', pattern:'tracking.cirrusinsight.com', url:'http://cirrusinsight.com'},
