@@ -51,12 +51,22 @@ var pixelblock = (function(){
       // fetch all possible height values
       var w1 = clean_height_width(elem.style.width);
       var w2 = clean_height_width(elem.style.maxWidth);
-      var w3 = clean_height_width(elem.width);
+
+      var w3 = -1;
+      // check if width attr exists (otherwise dom always returns 0)
+      if(typeof $(img).attr('width') != 'undefined') {
+        w3 = clean_height_width(elem.width) ;
+      }
 
       // fetch all possible width values
       var h1 = clean_height_width(elem.style.height);
       var h2 = clean_height_width(elem.style.maxHeight);
-      var h3 = clean_height_width(elem.height);
+
+      var h3 = -1;
+      // check if height attr exists (otherwise dom always returns 0)
+      if(typeof $(img).attr('height') != 'undefined') {
+        h3 = clean_height_width(elem.height);
+      }
 
       if ( (w1 == 0 || w1 == 1 || w2 == 0 || w2 == 1 || w3 == 0 || w3 == 1) &&
            (h1 == 0 || h1 == 1 || h2 == 0 || h2 == 1 || h3 == 0 || h3 == 1)
