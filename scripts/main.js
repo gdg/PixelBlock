@@ -136,6 +136,10 @@ var pixelblock = (function(){
   }
 
   var scan_images = function(){
+
+    // Note: For some reason gmail.js seems to crash once in a while, add a check to re-init it
+    if (typeof gmail == 'undefined') gmail = Gmail();
+ 
     var body = gmail.dom.email_body();
 
     var emails = $(body[0]).find('div.h7[processed!="true"]');
