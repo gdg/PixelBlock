@@ -146,35 +146,38 @@ var pixelblock = (function(){
   }
 
   var scan_images = function(){
-
-    // Note: For some reason gmail.js seems to crash once in a while, add a check to re-init it
-    if (typeof gmail == 'undefined') gmail = Gmail();
- 
-    var body = gmail.dom.email_body();
-
-    var emails = $(body[0]).find('div.h7[processed!="true"]');
-    // go through all open emails on screen
-    for(var x = 0; x < emails.length; x++){
-      var email = emails[x], tracking_image_found = false;
-
-      // loop over all images in this email
-      $("img[src]", email).each(function(){
-        var src = this.src;
-        if(src.indexOf(proxy_pattern) > 0 && src.indexOf(safe_pattern) == -1){
-          if(is_blacklisted(this)){
-            this.setAttribute('tracker', 'true');
-            tracking_image_found = true;
-          }else{
-            whitelist_image(this);
+    try {
+      // Note: For some reason gmail.js seems to crash once in a while, add a check to re-init it
+      if (typeof gmail == 'undefined') gmail = Gmail();
+   
+      var body = gmail.dom.email_body();
+  
+      var emails = $(body[0]).find('div.h7[processed!="true"]');
+      // go through all open emails on screen
+      for(var x = 0; x < emails.length; x++){
+        var email = emails[x], tracking_image_found = false;
+  
+        // loop over all images in this email
+        $("img[src]", email).each(function(){
+          var src = this.src;
+          if(src.indexOf(proxy_pattern) > 0 && src.indexOf(safe_pattern) == -1){
+            if(is_blacklisted(this)){
+              this.setAttribute('tracker', 'true');
+              tracking_image_found = true;
+            }else{
+              whitelist_image(this);
+            }
           }
-        }
-      });
-
-      // show 'eye'
-      if(tracking_image_found) show_tracking_eye(email);
-
-      // Handle no images mode
-      if($("div.ado", email).length == 0) email.setAttribute('processed', 'true');
+        });
+  
+        // show 'eye'
+        if(tracking_image_found) show_tracking_eye(email);
+  
+        // Handle no images mode
+        if($("div.ado", email).length == 0) email.setAttribute('processed', 'true');
+      }
+    }catch(e){
+      console.log('PixelBlock Error: ' + e);
     }
     setTimeout(scan_images, 100);
   }
