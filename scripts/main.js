@@ -186,7 +186,7 @@ var pixelblock = (function(){
     // add bootstrap.js
     $('#bs-script').attr('src', $('#bs-script').attr('data-src'));
     // init gmail.js
-    gmail = new Gmail();
+    gmail = Gmail();
   }
 
   var start = function(){
@@ -196,9 +196,9 @@ var pixelblock = (function(){
   return {init:init, start:start};
 })();
 
-// check if jquery loaded & initialized
+// check if jquery/gmail.js loaded & initialized
 var checkLoaded = function() {
-  if(window.jQuery) {
+  if(window.jQuery && typeof Gmail != 'undefined') {
     $.fn.onAvailable = function(e) {
       var t = this.selector;
       var n = this;
