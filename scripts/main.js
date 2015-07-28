@@ -30,7 +30,8 @@ var pixelblock = (function(){
                    {name:'Mixpanel',     pattern:'api.mixpanel.com/track', url:'http://mixpanel.com'},
                    {name:'Front App',    pattern:'web.frontapp.com/api',   url:'http://frontapp.com'},
                    {name:'Mailtrack.io', pattern:'mailtrack.io/trace',     url:'http://mailtrack.io'},
-                   {name:'ToutApp',      pattern:'go.toutapp.com',         url:'http://toutapp.com'}
+                   {name:'ToutApp',      pattern:'go.toutapp.com',         url:'http://toutapp.com'},
+                   {name:'Outreach',     pattern:'app.outreach.io',        url:'http://outreach.io'},
                    ];
 
   /*
@@ -48,9 +49,36 @@ var pixelblock = (function(){
     });
 
     // block all images left over that are 1 x 1 (or less, regardless)
-    if(!blacklisted && $(img).width() <= 1 && $(img).height() <= 1){
-      img.tracker_info = {pattern:'', name:'Unknown', url:''};
-      blacklisted = true;
+    if (!blacklisted) {
+      var elem = $(img)[0];
+      // fetch all possible height values
+      var w1 = clean_height_width(elem.style.width);
+      var w2 = clean_height_width(elem.style.maxWidth);
+      var w3 = clean_height_width(elem.style.minWidth);
+
+      var w4 = -1;
+      // check if width attr exists (otherwise dom always returns 0)
+      if(typeof $(img).attr('width') != 'undefined') {
+        w4 = clean_height_width(elem.width) ;
+      }
+
+      // fetch all possible width values
+      var h1 = clean_height_width(elem.style.height);
+      var h2 = clean_height_width(elem.style.maxHeight);
+      var h3 = clean_height_width(elem.style.minHeight);
+
+      var h4 = -1;
+      // check if height attr exists (otherwise dom always returns 0)
+      if(typeof $(img).attr('height') != 'undefined') {
+        h4 = clean_height_width(elem.height);
+      }
+
+      if ( (w1 == 0 || w1 == 1 || w2 == 0 || w2 == 1 || w3 == 0 || w3 == 1 || w4 == 0 || w4 == 1) &&
+          (h1 == 0 || h1 == 1 || h2 == 0 || h2 == 1 || h3 == 0 || h3 == 1 || h4 == 0 || h4 == 1)
+      ) {
+        img.tracker_info = {pattern:'', name:'Unknown', url:''};
+        blacklisted = true;
+      }
     }
 
     // if blacklisted, hide image (ie. prevent the tracking img from loading)
